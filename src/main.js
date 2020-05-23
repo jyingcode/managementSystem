@@ -6,8 +6,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 
-import { mockXHR } from '../mock'
-mockXHR()
+// import { mockXHR } from '../mock'
+// mockXHR()
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);

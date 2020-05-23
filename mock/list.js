@@ -4,7 +4,7 @@
     // user login
     {
       url: '/getList',
-      type: 'post',
+      type: 'get',
       response: () => {
         return {
             code: 0,
