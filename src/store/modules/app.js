@@ -3,7 +3,6 @@ const state = {
 	list: [],
 	loading: false,
 }
-
 const mutations = {
 	SET_LIST: (s, v) => {
 		s.list = v
