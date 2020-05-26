@@ -22,7 +22,7 @@ function readFile() {
 function writeFile(item) {
 	return new Promise((r, j) => {
 		readFile()
-			.then((data) => {
+			.then((data = []) => {
 				let content = {}
 				item.date = getCureentDate()
 				content.list = data
@@ -47,7 +47,32 @@ function writeFile(item) {
 			})
 	})
 }
-
+function deleteElement(item) {
+	return new Promise((r, j) => {
+		readFile()
+			.then((data) => {
+				for (let i = 0; i < data.length; i++) {
+					const el = data[i]
+					if (el.menu === item.menu) {
+						data.splice(i, 1)
+						break
+					}
+				}
+				data = {
+					list: data,
+				}
+				fs.writeFile(filepath, JSON.stringify(data), (err, res) => {
+					if (err) {
+						j(err)
+					}
+					r(item)
+				})
+			})
+			.catch((e) => {
+				console.log(e)
+			})
+	})
+}
 function getCureentDate() {
 	let str = ''
 	let time = new Date()
@@ -86,4 +111,5 @@ function getCureentDate() {
 module.exports = {
 	readFile,
 	writeFile,
+	deleteElement,
 }

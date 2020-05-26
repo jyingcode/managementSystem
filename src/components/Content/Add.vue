@@ -13,16 +13,6 @@
 					placeholder="请输入内容"
 				></el-input>
 			</el-form-item>
-
-			<el-date-picker
-				v-model="formData.date"
-				type="datetime"
-				placeholder="选择日期时间"
-				align="right"
-				:picker-options="pickerOptions"
-			>
-			</el-date-picker>
-
 			<el-form-item label="备注" prop="comment">
 				<el-input
 					v-model="formData.comment"
@@ -44,6 +34,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { submit } from '../../Api'
 const validImg = (rule, value, callback) => {
 	const reg = /https/
 	if (!reg.test(value)) {
@@ -56,14 +47,7 @@ const validZN = (rule, value, callback) => {
 		callback(new Error('请输入正确中文'))
 	}
 }
-// const validDate = (rule, value, callback) => {
-//   const reg = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
-//   const reg1 = /^(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
-//   const reg2 = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
-//   if (!reg.test(value) || !reg1.test(value) || !reg2.test(value)) {
-//     callback(new Error('请输入正确日期'))
-//   }
-// }
+
 const validPrice = (rule, value, callback) => {
 	const reg = /((^[1-9]\d*)|^0)(\.\d{0,2}){0,1}$/
 	const reg1 = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/
@@ -78,46 +62,15 @@ export default {
 			formData: {
 				img: '',
 				menu: '',
-				// date: '',
 				comment: '',
 				price: '',
 			},
 			rules: {
 				img: [{ validator: validImg, trigger: 'blur' }],
 				menu: [{ validator: validZN, trigger: 'blur' }],
-				// date: [{ validator: validDate, trigger: 'blur' }],
 				comment: [{ validator: validZN, trigger: 'blur' }],
 				price: [{ validator: validPrice, trigger: 'blur' }],
 			},
-			pickerOptions: {
-				shortcuts: [
-					{
-						text: '今天',
-						onClick(picker) {
-							picker.$emit('pick', new Date())
-						},
-					},
-					{
-						text: '昨天',
-						onClick(picker) {
-							const date = new Date()
-							date.setTime(date.getTime() - 3600 * 1000 * 24)
-							picker.$emit('pick', date)
-						},
-					},
-					{
-						text: '一周前',
-						onClick(picker) {
-							const date = new Date()
-							date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-							picker.$emit('pick', date)
-						},
-					},
-				],
-			},
-			value1: '',
-			value2: '',
-			value3: '',
 		}
 	},
 
@@ -131,7 +84,7 @@ export default {
 	methods: {
 		onSubmit() {
 			const data = this.formData
-			this.$store.dispatch('addOrder', data).then((res) => {
+			submit(data).then((res) => {
 				if (res.code === 0) {
 					this.$message({
 						type: 'success',

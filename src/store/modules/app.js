@@ -1,4 +1,4 @@
-import { getList, submit } from '../../Api/index'
+import { getList } from '../../Api/index'
 const state = {
 	list: [],
 	loading: false,
@@ -28,27 +28,22 @@ const mutations = {
 }
 
 const actions = {
-	getList({ commit }, p) {
-		commit('SET_LOADING', true)
-		getList(p).then((data) => {
-			console.log(data)
-			console.log(commit)
-			const list = data.list
-			commit('SET_LIST', list)
-			setTimeout(() => {
-				commit('SET_LOADING', false)
-			}, 1000)
-		})
-	},
-
-	// setList ({commit}, list) {
-	//   commit('SET_LIST', list)
+	// getList({ commit }, p) {
+	// 	commit('SET_LOADING', true)
+	// 	getList(p).then((data) => {
+	// 		console.log(data)
+	// 		console.log(commit)
+	// 		const list = data.list
+	// 		commit('SET_LIST', list)
+	// 		commit('SET_LOADING', false)
+	// 	})
 	// },
-
-	addOrder({ commit }, data) {
-		console.log(commit)
-		return submit(data)
-	},
+	// addOrder(data) {
+	// 	return submit(data)
+	// },
+	// deleteData(data) {
+	// 	return onDelete(data)
+	// },
 }
 
 export default {

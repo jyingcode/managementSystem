@@ -35,4 +35,11 @@ router.post('/addOrder', function(req, res, next) {
 			})
 		})
 })
+router.post('/deleteData', function(req, res, next) {
+	handlerFile.deleteElement(req.body).then((result) => {
+		res.json({
+			code: 0,
+		})
+	})
+})
 module.exports = router
