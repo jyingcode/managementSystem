@@ -18,7 +18,10 @@
 					价格：<span>{{ item.price }}</span>
 				</div>
 				<div class="btn">
-					<button @click="onDelete(item)">删除</button>
+					<button class="add" @click="onDelete(item)">删除</button>
+					<el-button class="change-btn" @click="changeData(item)"
+						>修改</el-button
+					>
 				</div>
 			</li>
 		</ul>
@@ -28,15 +31,54 @@
 			<el-pagination layout="prev, pager, next" :total="50">
 			</el-pagination>
 		</div>
+		<el-dialog :visible.sync="dialogTableVisible">
+			<el-form ref="form" :model="formData" label-width="80px">
+				<el-form-item label="图片" prop="img">
+					<el-input
+						v-model="formData.img"
+						placeholder="请输入内容"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="菜名" prop="menu">
+					<el-input
+						v-model="formData.menu"
+						disabled
+						placeholder="请输入内容"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="备注" prop="comment">
+					<el-input
+						v-model="formData.comment"
+						placeholder="请输入内容"
+					></el-input>
+				</el-form-item>
+				<el-form-item label="单价" prop="price">
+					<el-input
+						v-model="formData.price"
+						placeholder="请输入内容"
+					></el-input>
+				</el-form-item>
+				<button @click="submitData()">确定</button>
+			</el-form>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { onDelete, getList } from '../../Api'
+import { onDelete, getList, modifyData } from '../../Api'
 export default {
 	data() {
-		return {}
+		return {
+			formData: {
+				img: 'xxx',
+				menu: '',
+				comment: '',
+				price: '',
+			},
+
+			dialogTableVisible: false,
+		}
 	},
 
 	computed: {
@@ -47,7 +89,7 @@ export default {
 	},
 	created() {
 		this.$store.commit('SET_LOADING', true)
-		getList().then((data) => {
+		getList({ age: 111 }).then((data) => {
 			const list = data.list
 			this.$store.commit('SET_LIST', list)
 			this.$store.commit('SET_LOADING', false)
@@ -59,11 +101,26 @@ export default {
 				this.$store.dispatch('getList')
 			})
 		},
+		changeData(item) {
+			console.log(item)
+			this.dialogTableVisible = true
+			this.formData = JSON.parse(JSON.stringify(item))
+		},
+		submitData() {
+			const data = this.formData
+			console.log(data)
+			modifyData(data).then(() => {
+				getList().then(({ list }) => {
+					this.$store.commit('SET_LIST', list)
+					this.dialogTableVisible = false
+				})
+			})
+		},
 	},
 }
 </script>
 
-<style scope>
+<style scope lang="scss">
 .container {
 	padding: 10px 20px;
 }
@@ -76,6 +133,7 @@ export default {
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 10px;
 	margin-bottom: 20px;
+	min-width: 710px;
 }
 .list-item div {
 	float: left;
@@ -91,8 +149,10 @@ export default {
 	font-weight: bold;
 	text-align: left;
 }
-.desc .date {
-	font-size: 14px;
+.desc {
+	.date {
+		font-size: 14px;
+	}
 }
 .bet {
 	position: absolute;
@@ -105,17 +165,30 @@ export default {
 	line-height: 100px;
 	margin-left: 100px;
 }
-.price span {
-	color: #f00;
+.price {
+	span {
+		color: #f00;
+	}
 }
-.btn button {
-	width: 80px;
-	height: 30px;
-	line-height: 30px;
-	border: none;
-	background-color: aquamarine;
-	border-radius: 4px;
+
+.btn {
+	padding-top: 32px;
+	.add {
+		width: 80px;
+		height: 30px;
+		line-height: 30px;
+		border: none;
+		background-color: aquamarine;
+		border-radius: 4px;
+		float: left;
+	}
+	.change-btn {
+		width: 80px;
+		height: 30px;
+		float: left;
+	}
 }
+
 .el-pagination {
 	margin-top: 300px;
 }

@@ -25,10 +25,9 @@ function writeFile(item) {
 			.then((data = []) => {
 				let content = {}
 				item.date = getCureentDate()
+				item.id = Date.now()
 				content.list = data
-				let compareResult = content.list.some(
-					(el) => item.menu === el.menu
-				)
+				let compareResult = content.list.some((el) => item.id === el.id)
 				if (compareResult) {
 					j('当前菜单已经存在')
 					return
@@ -53,7 +52,7 @@ function deleteElement(item) {
 			.then((data) => {
 				for (let i = 0; i < data.length; i++) {
 					const el = data[i]
-					if (el.menu === item.menu) {
+					if (el.id === item.id) {
 						data.splice(i, 1)
 						break
 					}
@@ -73,6 +72,32 @@ function deleteElement(item) {
 			})
 	})
 }
+function chageData(item) {
+	return new Promise((r, j) => {
+		readFile().then((data) => {
+			console.log(data)
+			for (var i = 0; i < data.length; i++) {
+				const el = data[i]
+				if (el.id === item.id) {
+					data.splice(i, 1, item)
+					break
+				}
+			}
+			data = {
+				list: data,
+			}
+			fs.writeFile(filepath, JSON.stringify(data), (err, res) => {
+				if (err) {
+					j(err)
+				}
+				r(item)
+			}).catch((e) => {
+				console.log(e)
+			})
+		})
+	})
+}
+
 function getCureentDate() {
 	let str = ''
 	let time = new Date()
@@ -112,4 +137,5 @@ module.exports = {
 	readFile,
 	writeFile,
 	deleteElement,
+	chageData,
 }

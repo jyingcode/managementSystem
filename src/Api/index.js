@@ -4,7 +4,7 @@ export function getList(data) {
 	return request({
 		url: '/getList',
 		method: 'get',
-		data,
+		params: data,
 	})
 }
 
@@ -19,6 +19,14 @@ export function submit(data) {
 export function onDelete(data) {
 	return request({
 		url: '/deleteData',
+		method: 'post',
+		data,
+	})
+}
+
+export function modifyData(data) {
+	return request({
+		url: '/onModifyData',
 		method: 'post',
 		data,
 	})

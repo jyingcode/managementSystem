@@ -3,6 +3,7 @@ var router = express.Router()
 const handlerFile = require('../data/handerFile')
 /* GET home page. */
 router.get('/getList', function(req, res, next) {
+	console.log(req.query)
 	handlerFile
 		.readFile()
 		.then((data) => {
@@ -37,6 +38,14 @@ router.post('/addOrder', function(req, res, next) {
 })
 router.post('/deleteData', function(req, res, next) {
 	handlerFile.deleteElement(req.body).then((result) => {
+		res.json({
+			code: 0,
+		})
+	})
+})
+
+router.post('/onModifyData', function(req, res, next) {
+	handlerFile.chageData(req.body).then((result) => {
 		res.json({
 			code: 0,
 		})

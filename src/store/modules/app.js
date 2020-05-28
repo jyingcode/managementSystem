@@ -1,4 +1,3 @@
-import { getList } from '../../Api/index'
 const state = {
 	list: [],
 	loading: false,
