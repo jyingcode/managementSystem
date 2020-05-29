@@ -178,7 +178,7 @@ export default {
 		height: 30px;
 		line-height: 30px;
 		border: none;
-		background-color: aquamarine;
+		border: 1px solid gray;
 		border-radius: 4px;
 		float: left;
 	}
@@ -186,6 +186,7 @@ export default {
 		width: 80px;
 		height: 30px;
 		float: left;
+		border: 1px solid gray;
 	}
 }
 
