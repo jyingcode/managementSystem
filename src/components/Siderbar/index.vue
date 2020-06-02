@@ -3,14 +3,14 @@
 		<el-row class="tac">
 			<el-col :span="12">
 				<el-menu default-active="1" class="el-menu-vertical-demo">
-					<el-menu-item index="2" @click="jump('/index')">
+					<el-menu-item index="2" @click="jump('index')">
 						<span class="size-big" slot="title">首页</span>
 					</el-menu-item>
-					<el-menu-item index="3" @click="jump('/list')">
-						<span class="size-big" slot="title">订单列表</span>
+					<el-menu-item index="3" @click="jump('list')">
+						<span class="size-big" slot="title">列表</span>
 					</el-menu-item>
-					<el-menu-item index="4" @click="jump('/add')">
-						<span class="size-big" slot="title">添加订单</span>
+					<el-menu-item index="4" @click="jump('add')">
+						<span class="size-big" slot="title">订单</span>
 					</el-menu-item>
 				</el-menu>
 			</el-col>
@@ -35,7 +35,6 @@ export default {
 	height: 100%;
 	border: 2px solid gray;
 	border-top: 0;
-	padding-top: 10px;
 }
 .el-menu-item {
 	font-size: 20px !important;
@@ -47,7 +46,7 @@ export default {
 .size-big {
 	font-size: 8px;
 	position: absolute;
-	left: -50%;
-	right: -50%;
+	left: 5px;
+	right: 5px;
 }
 </style>

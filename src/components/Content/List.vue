@@ -1,8 +1,10 @@
 <template>
 	<div class="container" v-loading.fullscreen.lock="loading">
-		<ul class="list-box" v-for="(item, index) in list" :key="index">
-			<li class="list-item">
-				<div class="pic">{{ item.img }}</div>
+		<ul class="list-box">
+			<li class="list-item" v-for="(item, index) in list" :key="index">
+				<div class="pic">
+					<img :src="item.img" style="width:100%;height:100%" />
+				</div>
 				<div class="desc">
 					<h3>{{ item.menu }}</h3>
 					<p class="date">
@@ -28,7 +30,12 @@
 
 		<div class="block">
 			<span class="demonstration"></span>
-			<el-pagination layout="prev, pager, next" :total="50">
+			<el-pagination
+				@current-change="handleCurrent"
+				:page-size="pageSize"
+				layout="total, prev, pager, next"
+				:total="total"
+			>
 			</el-pagination>
 		</div>
 		<el-dialog :visible.sync="dialogTableVisible">
@@ -76,7 +83,8 @@ export default {
 				comment: '',
 				price: '',
 			},
-
+			total: 10,
+			pageSize: 5,
 			dialogTableVisible: false,
 		}
 	},
@@ -89,11 +97,7 @@ export default {
 	},
 	created() {
 		this.$store.commit('SET_LOADING', true)
-		getList({ age: 111 }).then((data) => {
-			const list = data.list
-			this.$store.commit('SET_LIST', list)
-			this.$store.commit('SET_LOADING', false)
-		})
+		this.getOrderList()
 	},
 	methods: {
 		onDelete(item) {
@@ -116,6 +120,19 @@ export default {
 				})
 			})
 		},
+		handleCurrent(current) {
+			this.getOrderList(current)
+		},
+		async getOrderList(pageNum = 1) {
+			const { data } = await getList({
+				pageNum,
+				pageSize: this.pageSize,
+			})
+			const list = data.list
+			this.total = data.total
+			this.$store.commit('SET_LIST', list)
+			this.$store.commit('SET_LOADING', false)
+		},
 	},
 }
 </script>
@@ -123,6 +140,7 @@ export default {
 <style scope lang="scss">
 .container {
 	padding: 10px 20px;
+	min-width: 800px;
 }
 .list-box {
 	/* float: left; */
@@ -191,6 +209,6 @@ export default {
 }
 
 .el-pagination {
-	margin-top: 300px;
+	margin-top: 20px;
 }
 </style>

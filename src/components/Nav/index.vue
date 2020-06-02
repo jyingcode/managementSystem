@@ -15,6 +15,7 @@ export default {}
 	height: 50px;
 	position: relative;
 	border: 2px solid gray;
+	background-color: steelblue;
 }
 .fontSize {
 	width: 150px;

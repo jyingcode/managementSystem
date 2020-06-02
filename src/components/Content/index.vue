@@ -12,6 +12,7 @@ export default {}
 	height: 100%;
 	width: calc(100% - 200px);
 	overflow: scroll;
+	max-width: 755px;
 }
 .first {
 	width: 100px;

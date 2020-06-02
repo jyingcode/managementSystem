@@ -1,12 +1,6 @@
 <template>
 	<div>
 		<el-form ref="form" :model="formData" :rules="rules" label-width="80px">
-			<el-form-item label="图片" prop="img">
-				<el-input
-					v-model="formData.img"
-					placeholder="请输入内容"
-				></el-input>
-			</el-form-item>
 			<el-form-item label="菜名" prop="menu">
 				<el-input
 					v-model="formData.menu"
@@ -29,18 +23,22 @@
 				<el-button @click="onSubmit">添加</el-button>
 			</el-form-item>
 		</el-form>
+		<el-upload
+			class="avatar-uploader"
+			action="http://localhost:3000/upload"
+			:show-file-list="false"
+			:on-success="handleAvatarSuccess"
+			:before-upload="beforeAvatarUpload"
+		>
+			<img v-if="imageUrl" :src="imageUrl" class="avatar" />
+			<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+		</el-upload>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import { submit } from '../../Api'
-const validImg = (rule, value, callback) => {
-	const reg = /https/
-	if (!reg.test(value)) {
-		callback(new Error('请输入正确的URL'))
-	} else callback()
-}
 const validZN = (rule, value, callback) => {
 	const reg = /[a-zA-Z0-9]/g
 	if (reg.test(value)) {
@@ -66,11 +64,11 @@ export default {
 				price: '',
 			},
 			rules: {
-				img: [{ validator: validImg, trigger: 'blur' }],
 				menu: [{ validator: validZN, trigger: 'blur' }],
 				comment: [{ validator: validZN, trigger: 'blur' }],
 				price: [{ validator: validPrice, trigger: 'blur' }],
 			},
+			imageUrl: '',
 		}
 	},
 
@@ -108,6 +106,22 @@ export default {
 					return false
 				}
 			})
+		},
+		handleAvatarSuccess(res, file) {
+			this.formData.img = res.url
+			this.imageUrl = URL.createObjectURL(file.raw)
+		},
+		beforeAvatarUpload(file) {
+			const isJPG = file.type === 'image/jpeg'
+			const isLt2M = file.size / 1024 / 1024 < 2
+
+			if (!isJPG) {
+				this.$message.error('上传头像图片只能是 JPG 格式!')
+			}
+			if (!isLt2M) {
+				this.$message.error('上传头像图片大小不能超过 2MB!')
+			}
+			return isJPG && isLt2M
 		},
 	},
 }

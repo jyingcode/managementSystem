@@ -1,20 +1,30 @@
 import axios from 'axios'
+import store from '../store'
+import { getToken } from '@/utils/auth'
 // let baseURL = 'http://localhost:3000'
 // if (process.env.NODE_ENV === 'prod') {
 // 	baseURL = 'http://xxxxx.com'
 // }
 // create an axios instance
+// axios.defaults.withCredentials = true
 const service = axios.create({
 	baseURL: 'http://localhost:3000', // url = base url + request url
 	// withCredentials: true, // send cookies when cross-domain requests
 	timeout: 5000, // request timeout
+	// withCredentials: true,
+	// crossDomin: true,
 })
 
 // request interceptor
 axios.interceptors.request.use(
 	function(config) {
 		// 在发送请求之前做些什么
-		console.error(config)
+		if (store.getters.token) {
+			// let each request carry token
+			// ['X-Token'] is a custom headers key
+			// please modify it according to the actual situation
+			config.headers['X-Token'] = getToken()
+		}
 		return config
 	},
 	function(error) {

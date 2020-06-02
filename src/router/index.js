@@ -7,31 +7,41 @@ Vue.use(Router)
 import Index from '../../src/components/Content/index'
 import List from '../../src/components/Content/List'
 import Add from '../../src/components/Content/Add'
+import Dashbaord from '../components/Dashbaord'
+import Login from '../../src/components/Login'
 // import Naver from '../../src/components/Content'
 
 // /* Router Modules */
 // import componentsRouter from './modules/components'
 
-
-
 export const constantRoutes = [
-  {
-    path: '/index',
-    component: Index,
-    hidden: true,
-    
-  },
-  {
-    path: '/list',
-    component: List,
-    hidden: true,
-    
-  },
-  {
-    path: '/add',
-    component: Add,
-    hidden: true,
-  }
+	{
+		path: '/dashbaord',
+		component: Dashbaord,
+		redirect: '/dashbaord/index',
+		children: [
+			{
+				path: 'index',
+				component: Index,
+				hidden: true,
+			},
+			{
+				path: 'list',
+				component: List,
+				hidden: true,
+			},
+			{
+				path: 'add',
+				component: Add,
+				hidden: true,
+			},
+		],
+	},
+	{
+		path: '/login',
+		component: Login,
+		hidden: true,
+	},
 ]
 //   {
 //     path: '/login',
@@ -392,18 +402,19 @@ export const constantRoutes = [
 //   { path: '*', redirect: '/404', hidden: true }
 // ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+	new Router({
+		// mode: 'history', // require service support
+		scrollBehavior: () => ({ y: 0 }),
+		routes: constantRoutes,
+	})
 
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+	const newRouter = createRouter()
+	router.matcher = newRouter.matcher // reset router
 }
 
 export default router

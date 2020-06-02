@@ -31,3 +31,10 @@ export function modifyData(data) {
 		data,
 	})
 }
+export function LoginPassword(data) {
+	return request({
+		url: 'login',
+		method: 'post',
+		data,
+	})
+}

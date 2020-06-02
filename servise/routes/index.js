@@ -1,15 +1,17 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
+
 const handlerFile = require('../data/handerFile')
+const user = require('../cookie/user')
 /* GET home page. */
 router.get('/getList', function(req, res, next) {
 	console.log(req.query)
 	handlerFile
-		.readFile()
+		.getList(req.query)
 		.then((data) => {
 			res.json({
 				code: 0,
-				list: data,
+				data,
 			})
 		})
 		.catch((e) => {
@@ -66,5 +68,28 @@ router.post('/onModifyData', function(req, res, next) {
 				msg: JSON.stringify(e),
 			})
 		})
+})
+
+router.post('/upload', function(req, res) {
+	handlerFile
+		.upload(req)
+		.then((data) => {
+			res.json({
+				code: 0,
+				...data,
+			})
+		})
+		.catch((e) => {
+			res.json({
+				code: -1,
+				msg: '上传图片失败',
+			})
+		})
+})
+
+router.post('/login', function(req, res) {
+	user.LoginPassword(req, res).then((data) => {
+		res.json(data)
+	})
 })
 module.exports = router

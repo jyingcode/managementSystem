@@ -1,6 +1,8 @@
+import { getToken } from '@/utils/auth'
 const state = {
 	list: [],
 	loading: false,
+	token: getToken(),
 }
 const mutations = {
 	SET_LIST: (s, v) => {
@@ -8,6 +10,9 @@ const mutations = {
 	},
 	SET_LOADING: (s, v) => {
 		s.loading = v
+	},
+	SET_TONKE: (s, v) => {
+		s.tonke = v
 	},
 
 	TOGGLE_SIDEBAR: (state) => {
