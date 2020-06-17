@@ -1,7 +1,7 @@
 <template>
 	<div class="nav">
 		<div class="fontSize">订单管理中心</div>
-		<p class="name">张三</p>
+		<!-- <p class="name">张三</p> -->
 	</div>
 </template>
 
@@ -10,12 +10,16 @@ export default {}
 </script>
 
 <style>
+.content {
+	float: left;
+	height: 100%;
+	width: calc(100% - 147px);
+	overflow: scroll;
+}
 .nav {
-	width: 800px;
 	height: 50px;
-	position: relative;
-	border: 2px solid gray;
-	background-color: steelblue;
+	box-shadow: 1px 1px 1px #1b191938;
+	-webkit-animation-delay: 0ms;
 }
 .fontSize {
 	width: 150px;
@@ -23,12 +27,13 @@ export default {}
 	font-size: 20px;
 	overflow: hidden;
 	line-height: 50px;
+	margin: auto;
 }
-.name {
+/* .name {
 	font-size: 10px;
 	position: absolute;
 	right: 50px;
 	bottom: 10px;
 	z-index: 10;
-}
+} */
 </style>

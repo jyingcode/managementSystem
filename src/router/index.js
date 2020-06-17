@@ -9,6 +9,9 @@ import List from '../../src/components/Content/List'
 import Add from '../../src/components/Content/Add'
 import Dashbaord from '../components/Dashbaord'
 import Login from '../../src/components/Login'
+import Test from '../../src/components/First/Test'
+import Header from '../../src/components/First/Header'
+import Rump from '../../src/components/First/Rump'
 // import Naver from '../../src/components/Content'
 
 // /* Router Modules */
@@ -23,6 +26,23 @@ export const constantRoutes = [
 			{
 				path: 'index',
 				component: Index,
+				children: [
+					{
+						path: 'test',
+						component: Test,
+						hidden: true,
+					},
+					{
+						path: 'header',
+						component: Header,
+						hidden: true,
+					},
+					{
+						path: 'rump',
+						component: Rump,
+						hidden: true,
+					},
+				],
 				hidden: true,
 			},
 			{

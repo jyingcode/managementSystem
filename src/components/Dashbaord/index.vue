@@ -1,11 +1,9 @@
 <template>
-	<div>
-		<Nav />
-		<div class="main">
-			<Siderbar />
-			<div class="content">
-				<router-view />
-			</div>
+	<div class="dashbaord">
+		<Siderbar />
+		<div class="content">
+			<Nav />
+			<router-view />
 		</div>
 	</div>
 </template>
@@ -23,8 +21,7 @@ export default {
 </script>
 
 <style>
-.main {
-	overflow: hidden;
-	height: 800px;
+.dashbaord {
+	height: 100%;
 }
 </style>
